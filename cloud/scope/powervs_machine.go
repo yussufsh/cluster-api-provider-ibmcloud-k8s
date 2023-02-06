@@ -150,8 +150,6 @@ func NewPowerVSMachineScope(params PowerVSMachineScopeParams) (scope *PowerVSMac
 		return
 	}
 
-	region := endpoints.CostructRegionFromZone(*res.RegionID)
-	scope.SetRegion(region)
 	scope.SetZone(*res.RegionID)
 
 	serviceOptions := powervs.ServiceOptions{
@@ -163,7 +161,7 @@ func NewPowerVSMachineScope(params PowerVSMachineScopeParams) (scope *PowerVSMac
 	}
 
 	// Fetch the service endpoint.
-	if svcEndpoint := endpoints.FetchPVSEndpoint(region, params.ServiceEndpoint); svcEndpoint != "" {
+	if svcEndpoint := endpoints.FetchPVSEndpoint(params.ServiceEndpoint); svcEndpoint != "" {
 		serviceOptions.IBMPIOptions.URL = svcEndpoint
 		scope.Logger.V(3).Info("Overriding the default powervs service endpoint")
 	}
@@ -551,19 +549,6 @@ func (m *PowerVSMachineScope) GetInstanceState() infrav1beta2.PowerVSInstanceSta
 	return m.IBMPowerVSMachine.Status.InstanceState
 }
 
-// SetRegion will set the region for the machine.
-func (m *PowerVSMachineScope) SetRegion(region string) {
-	m.IBMPowerVSMachine.Status.Region = &region
-}
-
-// GetRegion will get the region for the machine.
-func (m *PowerVSMachineScope) GetRegion() string {
-	if m.IBMPowerVSMachine.Status.Region == nil {
-		return ""
-	}
-	return *m.IBMPowerVSMachine.Status.Region
-}
-
 // SetZone will set the zone for the machine.
 func (m *PowerVSMachineScope) SetZone(zone string) {
 	m.IBMPowerVSMachine.Status.Zone = &zone
@@ -583,7 +568,11 @@ func (m *PowerVSMachineScope) SetProviderID(id *string) {
 	if options.ProviderIDFormatType(options.PowerVSProviderIDFormat) == options.PowerVSProviderIDFormatV2 ||
 		options.ProviderIDFormatType(options.ProviderIDFormat) == options.ProviderIDFormatV2 {
 		if id != nil {
+<<<<<<< Updated upstream
 			m.IBMPowerVSMachine.Spec.ProviderID = pointer.String(fmt.Sprintf("ibmpowervs://%s/%s/%s/%s", m.GetRegion(), m.GetZone(), m.IBMPowerVSMachine.Spec.ServiceInstanceID, *id))
+=======
+			m.IBMPowerVSMachine.Spec.ProviderID = pointer.StringPtr(fmt.Sprintf("ibmpowervs://%s/%s/%s/%s", "", m.GetZone(), m.IBMPowerVSMachine.Spec.ServiceInstanceID, *id))
+>>>>>>> Stashed changes
 		}
 	} else {
 		m.IBMPowerVSMachine.Spec.ProviderID = pointer.String(fmt.Sprintf("ibmpowervs://%s/%s", m.Machine.Spec.ClusterName, m.IBMPowerVSMachine.Name))

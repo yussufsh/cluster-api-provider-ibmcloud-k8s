@@ -19,7 +19,6 @@ package endpoints
 import (
 	"errors"
 	"net/url"
-	"regexp"
 	"strings"
 )
 
@@ -125,9 +124,9 @@ func FetchVPCEndpoint(region string, serviceEndpoint []ServiceEndpoint) string {
 }
 
 // FetchPVSEndpoint will return PowerVS service endpoint.
-func FetchPVSEndpoint(region string, serviceEndpoint []ServiceEndpoint) string {
+func FetchPVSEndpoint(serviceEndpoint []ServiceEndpoint) string {
 	for _, powervsEndpoint := range serviceEndpoint {
-		if powervsEndpoint.Region == region && powervsEndpoint.ID == string(PowerVS) {
+		if powervsEndpoint.ID == string(PowerVS) {
 			return powervsEndpoint.URL
 		}
 	}
@@ -142,19 +141,4 @@ func FetchRCEndpoint(serviceEndpoint []ServiceEndpoint) string {
 		}
 	}
 	return ""
-}
-
-// CostructRegionFromZone Calculate region based on location/zone.
-func CostructRegionFromZone(zone string) string {
-	var regex string
-	if strings.Contains(zone, "-") {
-		// it's a region or AZ
-		regex = "-[0-9]+$"
-	} else {
-		// it's a datacenter
-		regex = "[0-9]+$"
-	}
-
-	reg, _ := regexp.Compile(regex)
-	return reg.ReplaceAllString(zone, "")
 }

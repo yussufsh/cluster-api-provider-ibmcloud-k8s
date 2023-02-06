@@ -198,24 +198,20 @@ func TestFetchVPCEndpoint(t *testing.T) {
 func TestFetchPVSEndpoint(t *testing.T) {
 	testCases := []struct {
 		name            string
-		region          string
 		serviceEndpoint []ServiceEndpoint
 		expectedOutput  string
 	}{
 		{
 			name:            "Return empty endpoint",
-			region:          "us-south",
 			serviceEndpoint: []ServiceEndpoint{},
 			expectedOutput:  "",
 		},
 		{
-			name:   "Return fetched endpoint",
-			region: "us-south",
+			name: "Return fetched endpoint",
 			serviceEndpoint: []ServiceEndpoint{
 				{
-					ID:     "powervs",
-					URL:    "https://powervshost:8080",
-					Region: "us-south",
+					ID:  "powervs",
+					URL: "https://powervshost:8080",
 				},
 			},
 			expectedOutput: "https://powervshost:8080",
@@ -224,7 +220,7 @@ func TestFetchPVSEndpoint(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			out := FetchPVSEndpoint(tc.region, tc.serviceEndpoint)
+			out := FetchPVSEndpoint(tc.serviceEndpoint)
 			require.Equal(t, tc.expectedOutput, out)
 		})
 	}
@@ -258,82 +254,6 @@ func TestFetchRCEndpoint(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			out := FetchRCEndpoint(tc.serviceEndpoint)
 			require.Equal(t, tc.expectedOutput, out)
-		})
-	}
-}
-
-func TestCostructRegionFromZone(t *testing.T) {
-	testCases := []struct {
-		name           string
-		zone           string
-		expectedRegion string
-	}{
-		{
-			name:           "Return region dal",
-			zone:           "dal12",
-			expectedRegion: "dal",
-		},
-		{
-			name:           "Return region eu-de",
-			zone:           "eu-de-1",
-			expectedRegion: "eu-de",
-		},
-		{
-			name:           "Return region lon04",
-			zone:           "lon04",
-			expectedRegion: "lon",
-		},
-		{
-			name:           "Return region mon01",
-			zone:           "mon01",
-			expectedRegion: "mon",
-		},
-		{
-			name:           "Return region osa21",
-			zone:           "osa21",
-			expectedRegion: "osa",
-		},
-		{
-			name:           "Return region sao01",
-			zone:           "sao01",
-			expectedRegion: "sao",
-		},
-		{
-			name:           "Return region syd04",
-			zone:           "syd04",
-			expectedRegion: "syd",
-		},
-		{
-			name:           "Return region tok04",
-			zone:           "tok04",
-			expectedRegion: "tok",
-		},
-		{
-			name:           "Return region tor01",
-			zone:           "tor01",
-			expectedRegion: "tor",
-		},
-		{
-			name:           "Return region wdc06",
-			zone:           "wdc06",
-			expectedRegion: "wdc",
-		},
-		{
-			name:           "Return region us-east",
-			zone:           "us-east",
-			expectedRegion: "us-east",
-		},
-		{
-			name:           "Return region us-south",
-			zone:           "us-south",
-			expectedRegion: "us-south",
-		},
-	}
-
-	for _, tc := range testCases {
-		t.Run(tc.name, func(t *testing.T) {
-			out := CostructRegionFromZone(tc.zone)
-			require.Equal(t, tc.expectedRegion, out)
 		})
 	}
 }

@@ -124,7 +124,7 @@ func NewPowerVSImageScope(params PowerVSImageScopeParams) (scope *PowerVSImageSc
 	}
 
 	// Fetch the service endpoint.
-	if svcEndpoint := endpoints.FetchPVSEndpoint(endpoints.CostructRegionFromZone(*res.RegionID), params.ServiceEndpoint); svcEndpoint != "" {
+	if svcEndpoint := endpoints.FetchPVSEndpoint(params.ServiceEndpoint); svcEndpoint != "" {
 		options.IBMPIOptions.URL = svcEndpoint
 		scope.Logger.V(3).Info("overriding the default powervs service endpoint")
 	}

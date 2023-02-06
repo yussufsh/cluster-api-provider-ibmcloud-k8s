@@ -25,6 +25,7 @@ const (
 	PowerVSProviderIDFormatV1 ProviderIDFormatType = "v1"
 
 	// PowerVSProviderIDFormatV2 will set provider id to machine as ibmpowervs://<region>/<zone>/<service_instance_id>/<powervs_machine_id>
+<<<<<<< Updated upstream
 	// Deprecated: Use ProviderIDFormatV2.
 	PowerVSProviderIDFormatV2 ProviderIDFormatType = "v2"
 
@@ -37,6 +38,12 @@ const (
 	// For VPC machines: ibm://<account_id>///<cluster_id>/<vpc_machine_id>
 	// For Power VS machines: ibmpowervs://<region>/<zone>/<service_instance_id>/<powervs_machine_id>
 	ProviderIDFormatV2 ProviderIDFormatType = "v2"
+=======
+	PowerVSProviderIDFormatV2 PowerVSProviderIDFormatType = "v2"
+
+	// PowerVSProviderIDFormatV3 will set provider id to machine as ibmpowervs://<zone>/<service_instance_id>/<powervs_machine_id>
+	PowerVSProviderIDFormatV3 PowerVSProviderIDFormatType = "v3"
+>>>>>>> Stashed changes
 )
 
 var (
